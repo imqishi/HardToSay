@@ -7,21 +7,20 @@ class Solution(object):
         n = len(nums)
         if n == 0:
             return 0
+        if n == 1:
+            return nums[0]
+        if n == 2:
+            return max(nums)
+
         dp = []
-        for num in nums:
-            dp.append(num)
-        
+        dp.append(nums[0])
+        dp.append(max(nums[0], nums[1]))
+
         for i in range(2, n):
-            base = dp[i]
-            t = 0
-            for j in range(i - 1):
-                if t is 0:
-                    t = base + dp[j]
-                else:
-                    t = t if t > base + dp[j] else base + dp[j]
-            dp[i] = t
+            m = max(nums[i] + dp[i - 2], dp[i - 1])
+            dp.append(m)
         
-        return max(dp)
+        return dp[-1]
 
 obj = Solution()
 print obj.rob([1,2,3,4,5,6])
